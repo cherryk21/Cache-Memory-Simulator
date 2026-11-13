@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CacheLab | Cache Memory Simulator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">C</div>
+            <div>
+                <h2>CacheLab</h2>
+                <small>Memory Simulator</small>
+            </div>
+        </div>
+
+        <p class="menu-title">MAIN MENU</p>
+
+        <nav>
+            <a href="#dashboard" class="nav-link active">▦ Dashboard</a>
+            <a href="#configuration" class="nav-link">⚙ Configuration</a>
+            <a href="#mapping" class="nav-link">▤ Mapping Techniques</a>
+            <a href="#visualization" class="nav-link">▣ Cache Visualization</a>
+            <a href="#performance" class="nav-link">◷ Performance</a>
+            <a href="#comparison" class="nav-link">⇄ Comparison</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-line"></div>
+            <p>Computer Organization & Architecture</p>
+            <small>Educational Project</small>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="topbar" id="dashboard">
+            <div>
+                <h1>Cache Memory Simulator</h1>
+                <p>Explore cache operations and analyze memory performance.</p>
+            </div>
+            <div class="status">
+                <span class="status-dot"></span>
+                Simulator Ready
+            </div>
+        </header>
+
+        <!-- WELCOME -->
+        <section class="welcome">
+            <div class="welcome-content">
+                <span class="welcome-label">COMPUTER ORGANIZATION & ARCHITECTURE</span>
+                <h2>Welcome to CacheLab</h2>
+                <p>
+                    Understand how cache memory works between the CPU
+                    and main memory through interactive simulations.
+                </p>
+                <button class="primary-button" id="startButton">
+                    Start Simulation →
+                </button>
+            </div>
+            <div class="welcome-icon">▣</div>
+        </section>
+
+        <!-- STATISTICS -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Total Accesses</span>
+                    <span class="stat-icon blue">↗</span>
+                </div>
+                <h2 id="totalAccesses">0</h2>
+                <small>Memory requests</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Cache Hits</span>
+                    <span class="stat-icon green">✓</span>
+                </div>
+                <h2 id="totalHits" class="green-text">0</h2>
+                <small>Successful accesses</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Cache Misses</span>
+                    <span class="stat-icon red">×</span>
+                </div>
+                <h2 id="totalMisses" class="red-text">0</h2>
+                <small>Unsuccessful accesses</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Hit Ratio</span>
+                    <span class="stat-icon purple">%</span>
+                </div>
+                <h2 id="hitRatio">0%</h2>
+                <small>Cache efficiency</small>
+            </div>
+        </section>
+
+        <!-- MAPPING TECHNIQUES -->
+        <section class="section" id="mapping">
+            <div class="section-heading">
+                <div>
+                    <h2>Cache Mapping Techniques</h2>
+                    <p>Select a mapping technique for your simulation.</p>
+                </div>
+            </div>
+
+            <div class="mapping-grid">
+
+                <article class="mapping-card selected" data-mapping="direct">
+                    <div class="mapping-number">01</div>
+                    <h3>Direct Mapping</h3>
+                    <p>
+                        Each memory block maps to exactly one
+                        cache line using a fixed mapping formula.
+                    </p>
+                    <button class="mapping-button">Select Technique →</button>
+                </article>
+
+                <article class="mapping-card" data-mapping="associative">
+                    <div class="mapping-number">02</div>
+                    <h3>Fully Associative</h3>
+                    <p>
+                        Any memory block can occupy any cache line.
+                        Uses FIFO replacement when the cache is full.
+                    </p>
+                    <button class="mapping-button">Select Technique →</button>
+                </article>
+
+                <article class="mapping-card" data-mapping="set">
+                    <div class="mapping-number">03</div>
+                    <h3>Set Associative</h3>
+                    <p>
+                        Memory blocks map to a particular set
+                        and can occupy any way within that set.
+                    </p>
+                    <button class="mapping-button">Select Technique →</button>
+                </article>
+
+            </div>
+
+            <div class="selected-info" id="selectedInfo">
+                Currently selected: <strong>Direct Mapping</strong>
+            </div>
+        </section>
+
+        <!-- CONFIGURATION -->
+        <section class="section" id="configuration">
+            <div class="section-heading">
+                <div>
+                    <h2>Simulation Configuration</h2>
+                    <p>Configure cache parameters and memory access sequence.</p>
+                </div>
+            </div>
+
+            <div class="config-card">
+
+                <div class="config-grid">
+                    <div class="form-group">
+                        <label for="cacheLines">Number of Cache Lines</label>
+                        <input type="number" id="cacheLines"
+                               value="4" min="1" max="256">
+                        <small>Total number of cache lines.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blockSize">Block Size (Bytes)</label>
+                        <input type="number" id="blockSize"
+                               value="1" min="1">
+                        <small>Bytes contained in each memory block.</small>
+                    </div>
+
+                    <div class="form-group" id="associativityGroup" hidden>
+                        <label for="associativity">Associativity (Ways)</label>
+                        <input type="number" id="associativity"
+                               value="2" min="1">
+                        <small>Number of ways per cache set.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hitTime">Hit Time (ns)</label>
+                        <input type="number" id="hitTime"
+                               value="1" min="0" step="0.1">
+                        <small>Time for a cache hit.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="missPenalty">Miss Penalty (ns)</label>
+                        <input type="number" id="missPenalty"
+                               value="100" min="0" step="0.1">
+                        <small>Additional time for a cache miss.</small>
+                    </div>
+                </div>
+
+                <div class="form-group sequence-group">
+                    <label for="accessSequence">Memory Access Sequence</label>
+                    <textarea id="accessSequence" rows="3">0,1,2,0,3,1,4,0</textarea>
+                    <small>Enter non-negative decimal byte addresses separated by commas.</small>
+                </div>
+
+                <div class="config-actions">
+                    <button class="primary-button" id="runButton">
+                        ▶ Run Simulation
+                    </button>
+                    <button class="secondary-button" id="compareButton">
+                        ⇄ Compare All Techniques
+                    </button>
+                    <button class="reset-button" id="resetButton">
+                        ↻ Reset
+                    </button>
+                </div>
+
+                <p class="error-message" id="errorMessage" role="alert"></p>
+            </div>
+        </section>
+
+        <!-- VISUALIZATION -->
+        <section class="section" id="visualization">
+            <div class="section-heading">
+                <div>
+                    <h2>Cache Memory Visualization</h2>
+                    <p>Observe cache contents after each memory access.</p>
+                </div>
+            </div>
+
+            <div class="visual-card">
+
+                <div class="visual-header">
+                    <div>
+                        <h3 id="visualTitle">Direct Mapping</h3>
+                        <p id="stepDescription">Run a simulation to view cache contents.</p>
+                    </div>
+                    <span class="step-badge" id="stepBadge">No steps</span>
+                </div>
+
+                <div class="step-controls">
+                    <button class="secondary-button" id="previousButton" disabled>
+                        ← Previous
+                    </button>
+                    <button class="primary-button" id="nextButton" disabled>
+                        Next →
+                    </button>
+                </div>
+
+                <div id="cacheVisualization" class="cache-grid">
+                    <div class="empty-state">
+                        Cache visualization will appear here.
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <span><i class="legend-dot empty-dot"></i> Empty</span>
+                    <span><i class="legend-dot hit-dot"></i> Hit</span>
+                    <span><i class="legend-dot miss-dot"></i> Miss / Replacement</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULTS -->
+        <section class="section" id="performance">
+            <div class="section-heading">
+                <div>
+                    <h2>Performance Analysis</h2>
+                    <p>Review cache performance and execution details.</p>
+                </div>
+            </div>
+
+            <div id="results" class="results-card">
+                <div class="empty-state">
+                    Run a simulation to see performance results.
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPARISON -->
+        <section class="section" id="comparison">
+            <div class="section-heading">
+                <div>
+                    <h2>Algorithm Comparison</h2>
+                    <p>Compare all three mapping techniques using identical settings.</p>
+                </div>
+            </div>
+
+            <div id="comparisonResults" class="comparison-grid">
+                <div class="empty-state">
+                    Click "Compare All Techniques" to view the comparison.
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <strong>CacheLab</strong> © 2026 |
+            Cache Memory Simulator and Performance Analyzer
+        </footer>
+
+    </main>
+</div>
+
+<script src="js/cache.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
